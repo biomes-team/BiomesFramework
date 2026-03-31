@@ -221,9 +221,11 @@ namespace BiomesCore
 
     [DefOf]
     public static class WaterWalkerDefOf
-    {
-        public static JobDef WaterWalker_Unbeach;
-        public static JobDef WaterWalker_Die;
+	{
+		[MayRequireBiomesCore]
+		public static JobDef WaterWalker_Unbeach;
+		[MayRequireBiomesCore]
+		public static JobDef WaterWalker_Die;
     }
 
     public class JobGiver_Unbeach : ThinkNode_JobGiver
