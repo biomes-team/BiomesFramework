@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <ModMetaData>
-	<name>Framework! Biomes Mod Team</name>
+	<name>Biomes! Framework</name>
 	<author>The Biomes Mod Team</author>
 	<supportedVersions>
 		<li>1.6</li>
@@ -25,7 +25,7 @@
 		<li>pathfinding.framework</li>
 	</loadAfter>
 	<description>
-The core module for the BMT mods. Necessary for all of the BMT modules.
+		The code framework module for the Biomes! team mods. Necessary for all of them.
 	</description>
 
 </ModMetaData>
