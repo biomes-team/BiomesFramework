@@ -23,6 +23,8 @@ namespace BiomesCore.ThingComponents
 
 		public SoundDef spawnSound;
 
+		public bool forcePlayerFaction = false;
+
 		public CompProperties_CompAnimalsAroundThing() => compClass = typeof(CompAnimalsAroundThing);
 
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
@@ -117,6 +119,10 @@ namespace BiomesCore.ThingComponents
 				pawn.caller.DoCall();
 			}
 
+			if (Props.forcePlayerFaction && pawn.Faction != Faction.OfPlayer && parent.Faction == Faction.OfPlayer)
+			{
+				pawn.SetFaction(Faction.OfPlayer);
+			}
 			return true;
 		}
 
