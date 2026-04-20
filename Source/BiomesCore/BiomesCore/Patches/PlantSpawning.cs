@@ -4,6 +4,7 @@ using BiomesCore.DefModExtensions;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
+using System;
 
 namespace BiomesCore.Patches
 {
@@ -150,42 +151,66 @@ namespace BiomesCore.Patches
 			{
 				return;
 			}
-			Biomes_PlantControl plantExt = plantDef.GetModExtension<Biomes_PlantControl>();
-			// Ignore defs without extension
-			if (plantExt == null || plantExt.terrainTags.NullOrEmpty())
+			string phase = "initial";
+			try
 			{
-				return;
-			}
-
-			List<Thing> list = map.thingGrid.ThingsListAt(c);
-			foreach (Thing thing in list) //governs plant that grow on buildings, such as planters or hydroponics systems. These should bypass our other checks.
-			{
-				if (thing?.def.building != null)
+				phase = "get plant ModExtension";
+				Biomes_PlantControl plantExt = plantDef.GetModExtension<Biomes_PlantControl>();
+				// Ignore defs without extension
+				if (plantExt == null || plantExt.terrainTags.NullOrEmpty())
 				{
-					//if (plantDef.plant.sowTags.Contains(thing.def.building.sowTag))
-					//{
-					//	__result = plantDef.plant.sowTags.Contains(thing.def.building.sowTag);
-					//}
 					return;
 				}
-			}
-			TerrainDef terrain = map.terrainGrid.TerrainAt(c);
-			Biomes_PlantControl terrainExt = terrain.GetModExtension<Biomes_PlantControl>();
-			if (terrainExt != null)
-			{
-				if (terrain.fertility <= 0f)
+				phase = "check grid";
+				List<Thing> list = map.thingGrid.ThingsListAt(c);
+				foreach (Thing thing in list) //governs plant that grow on buildings, such as planters or hydroponics systems. These should bypass our other checks.
 				{
-					plantDef.plant.completelyIgnoreFertility = true;
-				}
-				foreach (string tag in terrainExt.terrainTags)
-				{
-					if (plantExt.terrainTags.Contains(tag))
+					if (thing?.def.building != null)
 					{
-						__result = true;
+						//if (plantDef.plant.sowTags.Contains(thing.def.building.sowTag))
+						//{
+						//	__result = plantDef.plant.sowTags.Contains(thing.def.building.sowTag);
+						//}
 						return;
 					}
 				}
-				__result = false;
+				phase = "get terrain";
+				TerrainDef terrain = map.terrainGrid.TerrainAt(c);
+				Biomes_PlantControl terrainExt = terrain.GetModExtension<Biomes_PlantControl>();
+				if (terrainExt != null)
+				{
+					//Log.Error(plantDef.defName + " " + terrain.defName);
+					phase = "check vanilla fertility and tags";
+					if (terrain.fertility <= 0f || terrain.IsWater)
+					{
+						//if (!terrain.tags.NullOrEmpty())
+						//{
+						//	if (plantDef.plant.wildTerrainTags == null)
+						//	{
+						//		plantDef.plant.wildTerrainTags = new();
+						//	}
+						//	foreach (string tag in terrain.tags)
+						//	{
+						//		plantDef.plant.wildTerrainTags.Add(tag);
+						//	}
+						//}
+						plantDef.plant.completelyIgnoreFertility = true;
+					}
+					phase = "check BMT tags";
+					foreach (string tag in terrainExt.terrainTags)
+					{
+						if (plantExt.terrainTags.Contains(tag))
+						{
+							__result = true;
+							return;
+						}
+					}
+					__result = false;
+				}
+			}
+			catch (Exception arg)
+			{
+				Log.Error("Error in CanEverPlantAt patch. On phase: " + phase + ". Reason: " + arg.Message);
 			}
 		}
 	}

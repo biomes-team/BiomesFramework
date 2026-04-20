@@ -30,5 +30,46 @@ namespace BiomesCore.DefModExtensions
 		public bool allowUnroofed = true;
 		public bool wallGrower = false;
 		public FloatRange lightRange = new FloatRange(0f, 1f);
+
+		public override void ResolveReferences(Def parentDef)
+		{
+			base.ResolveReferences(parentDef);
+			if (!terrainTags.NullOrEmpty() && parentDef is ThingDef thingDef)
+			{
+				if (thingDef.plant.wildTerrainTags == null)
+				{
+					thingDef.plant.wildTerrainTags = new();
+				}
+				foreach (string tag in terrainTags)
+				{
+					thingDef.plant.wildTerrainTags.Add(tag);
+				}
+				CheckFertility(thingDef);
+			}
+		}
+
+		private void CheckFertility(ThingDef thingDef)
+		{
+			if (thingDef.plant.completelyIgnoreFertility)
+			{
+				return;
+			}
+			foreach (TerrainDef terrainDef in DefDatabase<TerrainDef>.AllDefsListForReading)
+			{
+				if (terrainDef.tags.NullOrEmpty() || !terrainDef.IsWater)
+				{
+					continue;
+				}
+				foreach (string tag in terrainDef.tags)
+				{
+					if (terrainTags.Contains(tag))
+					{
+						thingDef.plant.completelyIgnoreFertility = true;
+						return;
+					}
+				}
+			}
+		}
+
 	}
 }
