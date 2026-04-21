@@ -201,7 +201,7 @@ namespace BiomesCore.Patches
 					{
 						if (plantExt.terrainTags.Contains(tag))
 						{
-							__result = true;
+							//__result = true;
 							return;
 						}
 					}
