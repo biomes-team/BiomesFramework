@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using HarmonyLib;
+using RimWorld;
+using System;
+using System.Collections.Generic;
 using Verse;
 
 namespace BiomesCore.DefModExtensions
@@ -46,6 +49,7 @@ namespace BiomesCore.DefModExtensions
 				}
 				CheckFertility(thingDef);
 			}
+			HarmonyPatch_PlantsSpawnControl();
 		}
 
 		private void CheckFertility(ThingDef thingDef)
@@ -69,6 +73,26 @@ namespace BiomesCore.DefModExtensions
 					}
 				}
 			}
+		}
+
+		private static bool plantsSpawnPatched = false;
+		// Please insert new patches here.Now this is a framework, let's make it flexible.
+		private static void HarmonyPatch_PlantsSpawnControl()
+		{
+			if (plantsSpawnPatched)
+			{
+				return;
+			}
+			try
+			{
+				BiomesCore.Harmony.Patch(AccessTools.Method(typeof(PlantUtility), "CanEverPlantAt", [typeof(ThingDef), typeof(IntVec3), typeof(Map), typeof(bool), typeof(bool)]), prefix: new HarmonyMethod(typeof(HarmonyUtility).GetMethod(nameof(HarmonyUtility.Patch_CanEverPlantAt))));
+				//To-Do: Other Biomes_PlantControl patches
+			}
+			catch (Exception arg)
+			{
+				Log.Error("Failed apply plants spawn control patch. Reason: " + arg.Message);
+			}
+			plantsSpawnPatched = true;
 		}
 
 	}

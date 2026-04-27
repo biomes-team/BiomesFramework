@@ -100,7 +100,6 @@
     <Compile Include="Patches\Building_Door_PawnCanOpen_Patch.cs" />
     <Compile Include="Patches\CompCauseGameCondition_ForceWeather_RandomizeSettings_Patch.cs" />
     <Compile Include="Patches\CompetitionHunterPatches.cs" />
-    <Compile Include="Patches\ComplexThreatWorker_SleepingInsects_GetPawnKindsForPoints_Patch.cs" />
     <Compile Include="Patches\ChangeStockQuality.cs" />
     <Compile Include="Patches\DangerWatcher_CalculateDangerRating.cs" />
     <Compile Include="Patches\ChunksOnKilled.cs" />
@@ -116,8 +115,6 @@
     <Compile Include="Patches\GenStep_ScatterLumpsMineable_OrePreferredBiome.cs" />
     <Compile Include="Patches\BeachMaker_NoBeachBiomes.cs" />
     <Compile Include="Patches\GenTemperature_Patch.cs" />
-    <Compile Include="Patches\Patch_DrawGeneBasics.cs" />
-    <Compile Include="Patches\Harmony_PredatorPrey.cs" />
     <Compile Include="Patches\Immunities_TakeDamage_Patch.cs" />
     <Compile Include="Patches\Incidents\IncidentWorker_CanFireNow_Patch.cs" />
     <Compile Include="Patches\IslandGeysers.cs" />
@@ -131,11 +128,9 @@
     <Compile Include="Patches\ModThingComps\PawnRenderer_BodyAngle_Patch.cs" />
     <Compile Include="Patches\ModThingComps\PawnRenderer_LayingFacing_Patch.cs" />
     <Compile Include="Patches\ModThingComps\PawnRenderNode_AnimalPart_GraphicsFor_Patch.cs" />
-    <Compile Include="Patches\PlantGrowth.cs" />
     <Compile Include="Patches\Plants\PlantUtility_GrowthSeasonNow_Patch.cs" />
     <Compile Include="Patches\Plants\Plant_PlantCollected_Patch.cs" />
     <Compile Include="Patches\Plants\WorkGiver_GrowerSow_JobOnCell_Patch.cs" />
-    <Compile Include="Patches\PollutionUtility_StimulatedByPollution_Patch.cs" />
     <Compile Include="Patches\PreceptWorker_Animal_ThingDefs_Patch.cs" />
     <Compile Include="Patches\PredatorHuntingBehaviour.cs" />
     <Compile Include="Patches\PreferenceHunterPatches.cs" />
@@ -212,13 +207,13 @@
     <Compile Include="ThingComponents\Spawner_Comp.cs" />
     <Compile Include="ThingComponents\Spawner_CompProperties.cs" />
     <Compile Include="Things\BiomesPlant.cs" />
-    <Compile Include="Utility\Utility.cs" />
+    <Compile Include="Utility\HarmonyUtility.cs" />
     <Compile Include="WorldMap\BiomeWorkerUtil.cs" />
     <Compile Include="WorldMap\WorldLayer_BiomeOverlays.cs" />
     <PackageReference Include="Krafs.Rimworld.Ref">
       <Version>1.6.4633</Version>
     </PackageReference>
-    <PackageReference Include="Lib.Harmony" Version="2.3.6" ExcludeAssets="runtime">
+    <PackageReference Include="Lib.Harmony" Version="2.4.2" ExcludeAssets="runtime">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <Reference Include="System" />

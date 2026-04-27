@@ -1,4 +1,6 @@
+using HarmonyLib;
 using RimWorld;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -127,6 +129,26 @@ namespace BiomesCore.Defs
 				backgroundPath = "UI/Icons/Genes/Gene_BodyFat";
 				Log.Error("Error in def: " + defName + ". Please set any backgroundPath.");
 			}
+			HarmonyPatch_GenesBackground();
+		}
+
+		private static bool drawGenePatched = false;
+		// Please insert new patches here. Now this is a framework, let's make it flexible.
+		private static void HarmonyPatch_GenesBackground()
+		{
+			if (drawGenePatched)
+			{
+				return;
+			}
+			try
+			{
+				BiomesCore.Harmony.Patch(AccessTools.Method(typeof(GeneUIUtility), "DrawGeneBasics"), prefix: new HarmonyMethod(typeof(HarmonyUtility).GetMethod(nameof(HarmonyUtility.Patch_GenesBackground))));
+			}
+			catch (Exception arg)
+			{
+				Log.Error("Non-critical error. Failed apply gene background patch. Reason: " + arg.Message);
+			}
+			drawGenePatched = true;
 		}
 
 	}

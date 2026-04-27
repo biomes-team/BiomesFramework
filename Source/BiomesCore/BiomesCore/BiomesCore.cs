@@ -9,18 +9,30 @@ namespace BiomesCore
 {
 	public class BiomesCore : Mod
 	{
-		public static Harmony HarmonyInstance;
 		public const string Id = "rimworld.biomes.core";
 		public const string Name = "Biomes! Core";
 		private static readonly Version Version = typeof(BiomesCore).Assembly.GetName().Version;
 
+		private static Harmony harmonyInstance;
+		public static Harmony Harmony
+		{
+			get
+			{
+				if (harmonyInstance == null)
+				{
+					harmonyInstance = new Harmony(Id);
+				}
+				return harmonyInstance;
+			}
+		}
+
 		public BiomesCore(ModContentPack content) : base(content)
 		{
 			// Regular harmony patches.
-			HarmonyInstance = new Harmony(Id);
-			HarmonyInstance.PatchAll();
+			//harmonyInstance = new Harmony(Id);
+			Harmony.PatchAll();
 			// Conditional Harmony patches. Mostly intended for mod compatibility.
-			PawnGroupKindWorker_Trader_GenerateCarriers.ModCompatibility();
+			HarmonyUtility.ModCompatibility();
 
 			LongEventHandler.ExecuteWhenFinished(InitializeWhenLoadingFinished);
 		}
