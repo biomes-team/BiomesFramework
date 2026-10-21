@@ -50,45 +50,45 @@ namespace BiomesCore.Patches
                 }
             }
 
-            if (extension.isBottomFeeder)
-            {
-                var bottomFeeder = pawn.GetComp<CompBottomFeeder>();
-                if (bottomFeeder != null)
-                {
-                    var targetCell = IntVec3.Invalid;
+            //if (extension.isBottomFeeder)
+            //{
+            //    var bottomFeeder = pawn.GetComp<CompBottomFeeder>();
+            //    if (bottomFeeder != null)
+            //    {
+            //        var targetCell = IntVec3.Invalid;
 
-                    if (bottomFeeder.Props.eatWhileMoving)
-                    {
-                        pawn.Map.floodFiller.FloodFill(pawn.Position,
-                            c => c.GetTerrain(pawn.Map).HasTag(bottomFeeder.Props.feedingTerrainTag),
-                            c => {
-                                if (pawn.Position.InHorDistOf(c, 10)) return false;
-                                if (!pawn.CanReserveAndReach(c, PathEndMode.OnCell, Danger.Deadly)) return false;
-                                if (c.IsForbidden(pawn) && !desperate) return false;
-                                targetCell = c;
-                                return true;
-                            }
-                        );
-                    }
-                    else
-                    {
-                        pawn.Map.floodFiller.FloodFill(pawn.Position, c => true, c =>
-                        {
-                            if (!c.GetTerrain(pawn.Map).HasTag(bottomFeeder.Props.feedingTerrainTag)) return false;
-                            if (!pawn.CanReserveAndReach(c, PathEndMode.OnCell, Danger.Deadly)) return false;
-                            if (c.IsForbidden(pawn) && !desperate) return false;
-                            targetCell = c;
-                            return true;
-                        });
-                    }
+            //        if (bottomFeeder.Props.eatWhileMoving)
+            //        {
+            //            pawn.Map.floodFiller.FloodFill(pawn.Position,
+            //                c => c.GetTerrain(pawn.Map).HasTag(bottomFeeder.Props.feedingTerrainTag),
+            //                c => {
+            //                    if (pawn.Position.InHorDistOf(c, 10)) return false;
+            //                    if (!pawn.CanReserveAndReach(c, PathEndMode.OnCell, Danger.Deadly)) return false;
+            //                    if (c.IsForbidden(pawn) && !desperate) return false;
+            //                    targetCell = c;
+            //                    return true;
+            //                }
+            //            );
+            //        }
+            //        else
+            //        {
+            //            pawn.Map.floodFiller.FloodFill(pawn.Position, c => true, c =>
+            //            {
+            //                if (!c.GetTerrain(pawn.Map).HasTag(bottomFeeder.Props.feedingTerrainTag)) return false;
+            //                if (!pawn.CanReserveAndReach(c, PathEndMode.OnCell, Danger.Deadly)) return false;
+            //                if (c.IsForbidden(pawn) && !desperate) return false;
+            //                targetCell = c;
+            //                return true;
+            //            });
+            //        }
 
-                    if (targetCell.IsValid)
-                    {
-                        __result = JobMaker.MakeJob(BiomesCoreDefOf.BC_BottomFeeder, targetCell);
-                        return false;
-                    }
-                }
-            }
+            //        if (targetCell.IsValid)
+            //        {
+            //            __result = JobMaker.MakeJob(BiomesCoreDefOf.BC_BottomFeeder, targetCell);
+            //            return false;
+            //        }
+            //    }
+            //}
 
             if (extension.isCustomThingEater)
             {

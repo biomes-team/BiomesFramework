@@ -21,8 +21,8 @@
     <OutputPath>..\..\..\1.7\Assemblies\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.7.4977-alpha.1" />
-    <PackageReference Include="Lib.Harmony" ExcludeAssets="runtime" Version="3.0.0-rc.2">
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.7.4982-unstable" />
+    <PackageReference Include="Lib.Harmony" ExcludeAssets="runtime" Version="3.0.0-rc.3">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
